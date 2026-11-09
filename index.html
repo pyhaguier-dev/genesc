@@ -1,0 +1,547 @@
+     
+     
+       <!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+    
+        
+<title>Gènes activation complet</title>
+  
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:white;
+    font-family:Arial,sans-serif;
+}
+
+
+
+/* SPHERE */
+
+
+#sphere{
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100vw;
+    height:100vh;
+
+    overflow:hidden;
+}
+ 
+
+
+.sphereItem{
+    position:absolute;
+    left:50%;
+    transform:translate(-50%,-50%);
+    white-space:nowrap;
+
+}
+
+
+#openTime {
+   
+ position: fixed;
+    bottom: 2px;
+    right: 5px;
+    font-size: 4px;
+    color: white;
+    opacity: 0.7;
+
+}
+
+</style>
+</head>
+
+<body>
+
+
+<div id="sphere"></div>
+
+  
+<script>
+
+// ======================================
+// DATA
+// ======================================
+ const numbers = ["Met-Pro-Arg-Ala-Pro-Arg-Cys-Arg-Ala-Val-Arg-Ser-Leu-Leu-Arg-Ser-His-Tyr-Arg-Glu","Met-Glu-Glu-Pro-Gln-Ser-Asp-Pro-Ser-Val-Glu-Pro-Pro-Leu-Ser-Gln-Glu-Thr-Phe-Ser","Met-Ala-Asp-Thr-Trp-Leu-Ser-Asp-Cys-Thr-Ile-Glu-Ala-Cys-Thr-Gly-Pro-Arg-Thr-Gly","Met-Tyr-Asn-Met-Met-Glu-Thr-Glu-Leu-Lys-Pro-Pro-Gly-Pro-Gln-Gln-Thr-Ser-Gly-Gly","Met-Ala-Ser-Ser-Asp-Ala-Leu-Leu-Pro-Ser-Phe-Ser-Thr-Phe-Ala-Ser-Gly-Pro-Ala-Gly","Met-Pro-Leu-Asn-Val-Ser-Phe-Thr-Asn-Arg-Asn-Tyr-Asp-Leu-Asp-Tyr-Asp-Ser-Val-Gln","Met-Val-Leu-Ala-Ala-Pro-Leu-Leu-Leu-Gly-Phe-Leu-Leu-Leu-Ala-Leu-Glu-Leu-Arg-Pro","Met-Gly-Ser-Val-Ser-Asn-Gln-Gln-Phe-Ala-Gly-Gly-Cys-Ala-Lys-Ala-Ala-Glu-Glu-Ala","Cys-Tyr-Ile-Gln-Asn-Cys-Pro-Leu-Gly","Met-Glu-Thr-Thr-Pro-Leu-Asn-Ser-Gln-Lys-Gln-Leu-Ser-Leu-His-Gly-Val-Ser-Asn-Gly","Met-Asp-Pro-Leu-Asn-Leu-Ser-Trp-Tyr-Asp-Asp-Asp-Leu-Glu-Arg-Gln-Asn-Trp-Ser-Arg","Met-Thr-Ile-Leu-Phe-Leu-Thr-Met-Val-Ile-Ser-Tyr-Phe-Gly-Cys-Met-Lys-Ala-Ala-Pro","Met-Ala-Gly-Asp-Thr-Lys-Glu-Gln-Arg-Ile-Leu-Arg-Tyr-Val-Gln-Gln-Asn-Ala-Lys-Pro","Met-Val-Phe-Thr-Val-Ser-Glu-Cys-Thr-Asn-Asp-Ser-Arg-Val-Leu-Met-Phe-Arg-Asp-Phe","Met-Pro-Ala-Pro-Phe-Gln-Phe-Val-Leu-Pro-Glu-Arg-Arg-Asp-Val-Gly-Arg-Leu-Cys-Pro","Met-Lys-Ser-Ile-Leu-Asp-Gly-Leu-Ala-Asp-Thr-Thr-Phe-Arg-Thr-Ile-Thr-Thr-Asp-Leu","Met-Asp-Asp-Tyr-Met-Ala-Ser-His-Ser-Thr-Val-Asp-Asp-Ala-Tyr-Tyr-Arg-Met-Tyr-Glu","Met-Trp-Glu-Leu-Val-Ala-Leu-Leu-Leu-Leu-Thr-Leu-Ala-Tyr-Phe-Phe-Trp-Pro-Lys-Arg","Met-Ala-Thr-Gly-Ser-Arg-Thr-Ser-Leu-Leu-Leu-Ala-Phe-Gly-Leu-Leu-Cys-Leu-Pro-Trp","Met-Glu-Val-Gln-Leu-Gly-Leu-Gly-Arg-Val-Tyr-Pro-Arg-Pro-Pro-Ser-Lys-Thr-Tyr-Arg","Met-Gly-Asn-Leu-Lys-Ser-Val-Gly-Gln-Glu-Pro-Gly-Pro-Pro-Cys-Gly-Leu-Gly-Leu-Gly","Met-Val-Leu-Glu-Met-Leu-Asn-Pro-Ile-His-Tyr-Asn-Ile-Thr-Ser-Ile-Val-Pro-Glu-Ala","Met-Glu-Gly-Ala-Leu-Ala-Ala-Asn-Trp-Ser-Ala-Glu-Ala-Ala-Asn-Ala-Ser-Ala-Ala-Pro","Met-Phe-Ser-Phe-Val-Asp-Leu-Arg-Leu-Leu-Leu-Leu-Leu-Ala-Ala-Thr-Ala-Leu-Leu-Thr","Met-Gly-Gly-Val-Pro-Gly-Ala-Val-Pro-Gly-Gly-Val-Pro-Gly-Gly-Val-Phe-Tyr-Pro-Gly","Met-His-Asn-Ala-Ala-Leu-Val-Gly-Phe-Leu-Phe-Cys-Val-Phe-Val-Gln-Gln-Trp-Trp-Trp","Met-Arg-Pro-Ser-Gly-Thr-Ala-Gly-Ala-Ala-Leu-Leu-Ala-Leu-Leu-Ala-Ala-Leu-Cys-Pro","Met-Ala-Thr-Lys-Ala-Val-Cys-Val-Leu-Lys-Gly-Asp-Gly-Pro-Val-Gln-Gly-Thr-Ile-His","Met-Val-Ser-Leu-Pro-Pro-Pro-Arg-Leu-Arg-Arg-Arg-Leu-Gln-Glu-Pro-Ser-Ala-Ala-Pro","Met-Leu-Glu-Glu-Ser-Pro-Ser-Tyr-Trp-Leu-Val-Gly-Leu-Leu-Val-Gly-Ser-Ala-Leu-Gly","Met-Ser-Ile-Gln-Val-Glu-His-Pro-Ala-Gly-Gly-Tyr-Lys-Lys-Leu-Phe-Glu-Thr-Val-Glu","Met-Met-Met-Met-Ser-Met-Asn-Pro-Lys-Gln-Pro-Tyr-Pro-Met-Ser-Gly-Ala-His-Val-Gly","Met-Leu-Pro-Leu-Leu-Ser-Phe-Val-Leu-Leu-Ala-Ala-Leu-Val-Val-Leu-Gln-Ala-Glu-Pro","Met-Gly-Thr-Trp-Leu-Leu-Thr-Cys-Leu-Leu-Gly-Ala-Ala-Val-Ala-Trp-Pro-Ala-Gln-Pro","Met-Lys-Met-Lys-Ile-Phe-Leu-Ala-Phe-Cys-Val-Leu-Trp-Cys-Ile-Ser-Ala-Val-Ala-Pro","Met-Glu-Pro-Ala-Phe-Gly-Gly-Met-Asn-Pro-Leu-Gly-Met-Phe-Pro-Asn-Gly-Arg-Pro-Leu","Met-Asp-Thr-Ser-Arg-Leu-Gly-Val-Leu-Leu-Ser-Leu-Pro-Val-Leu-Leu-Gln-Leu-Ala-Thr","Met-Ala-Ala-Arg-Ala-Leu-Cys-Met-Leu-Gly-Leu-Val-Leu-Ala-Leu-Leu-Ser-Ser-Ser-Ser","Met-Ser-Ser-Arg-Pro-Leu-Glu-Ser-Pro-Pro-Pro-Tyr-Arg-Pro-Asp-Glu-Phe-Lys-Pro-Asn","Met-Ala-Arg-Lys-Lys-Phe-Ser-Gly-Leu-Glu-Ile-Ser-Leu-Ile-Val-Leu-Phe-Val-Ile-Val","Met-Pro-Asn-Pro-Arg-Pro-Gly-Lys-Pro-Ser-Ala-Pro-Ser-Leu-Ala-Leu-Gly-Pro-Ser-Pro","Met-Lys-Tyr-Thr-Ser-Tyr-Ile-Leu-Ala-Phe-Gln-Leu-Cys-Ile-Val-Leu-Gly-Ser-Leu-Gly","Met-Lys-Thr-Gln-Arg-Asn-Gly-His-Ser-Leu-Gly-Arg-Trp-Ser-Leu-Val-Leu-Leu-Leu-Leu","Met-His-Ser-Ser-Ala-Leu-Leu-Cys-Cys-Leu-Val-Leu-Leu-Thr-Gly-Val-Arg-Ala-Ser-Pro","Met-Phe-Pro-Ser-Pro-Ala-Leu-Thr-Pro-Thr-Pro-Phe-Ser-Val-Lys-Asp-Ile-Leu-Asn-Leu","Met-Gly-Asp-Ser-Glu-Met-Ala-Val-Phe-Gly-Ala-Ala-Ala-Pro-Tyr-Leu-Arg-Lys-Ser-Glu","Met-Asn-Phe-Leu-Leu-Ser-Trp-Val-His-Trp-Ser-Leu-Ala-Leu-Leu-Leu-Tyr-Leu-His-His","Met-Asp-Pro-Gln-Thr-Ala-Pro-Ser-Arg-Ala-Leu-Leu-Leu-Leu-Leu-Phe-Leu-His-Leu-Ala"];
+    
+     // ======================================
+
+const colors = [
+
+    "red",
+    "orange",
+    "yellow",
+    "green",
+    "blue",
+    "indigo",
+    "violet"
+    
+];
+
+// ======================================
+// SPHERE
+// ======================================
+
+const levelCount = 33;
+
+let sphereItems = [];
+let sequenceForward = false;
+
+
+let phase = Math.PI;
+
+
+
+let colorIndex = 0;
+let previousDirection = 1;
+
+// ======================================
+// CREATE ITEM
+// ======================================
+function nextIndex(i){
+
+    return (
+        i + 1
+    ) % numbers.length;
+}
+
+function prevIndex(i){
+
+    return (
+        i - 1 +
+        numbers.length
+    ) % numbers.length;
+}
+function createTopItem(){
+
+    let newIndex;
+
+    if(
+        sphereItems.length === 0
+    ){
+
+        // Start from the LAST text
+        newIndex =
+            numbers.length - 1;
+
+    }
+    else{
+
+        newIndex =
+            prevIndex(
+                sphereItems[0].index
+            );
+    }
+
+    sphereItems.unshift({
+
+        index:
+            newIndex,
+
+        value:
+            String(
+                numbers[newIndex]
+            ),
+
+        color:
+            colors[colorIndex],
+
+        level:
+            0
+
+    });
+
+    colorIndex =
+        (colorIndex + 1)
+        %
+        colors.length;
+
+ 
+}
+
+function createBottomStartItem(){
+
+    const newIndex = 0;
+
+    sphereItems.push({
+
+        index:
+            newIndex,
+
+        value:
+            String(
+                numbers[newIndex]
+            ),
+
+        color:
+            colors[colorIndex],
+
+        level:
+            levelCount - 1
+
+    });
+
+    colorIndex =
+        (
+            colorIndex + 1
+        )
+        %
+        colors.length;
+}
+// ======================================
+// DRAW
+// ======================================
+
+
+
+function drawSphere(){
+
+    const sphere =
+        document.getElementById(
+            "sphere"
+        );
+
+    sphere.innerHTML = "";
+
+   
+    sphereItems.forEach(item => {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.className =
+            "sphereItem";
+
+        div.innerText =
+            item.value;
+
+        div.style.color =
+            item.color;
+
+      
+const lineHeight = 36;
+
+const y =
+     -10 +
+ item.level * lineHeight;
+
+
+        div.style.top =
+            y + "px";
+
+        div.style.left =
+            "50%";
+
+        div.style.transform =
+            "translate(-50%,-50%)";
+
+        const length =
+            String(
+                item.value
+            ).length;
+
+        const fontSize =
+            Math.max(
+              
+           
+
+  18,
+        36 - length * 0.5
+
+
+            );
+
+      div.style.fontSize = "24px";
+// div.style.fontSize =
+ //           fontSize + "px";
+       sphere.appendChild(div);
+
+    });
+}
+
+
+
+// ======================================
+// MOVEMENT
+// ======================================
+
+
+function moveForward(step){
+
+    sphereItems.forEach(item=>{
+        item.level += step;
+    });
+
+    sphereItems =
+        sphereItems.filter(
+            item => item.level < levelCount
+        );
+
+    if(
+        sphereItems.length === 0 ||
+        sphereItems[0].level >= 1
+    ){
+        createTopItem();
+    }
+}
+
+  
+function moveBackward(step){
+
+    sphereItems.forEach(item=>{
+        item.level -= step;
+    });
+
+    sphereItems =
+        sphereItems.filter(
+            item => item.level >= 0
+        );
+
+    if(
+        sphereItems.length === 0 ||
+        sphereItems[sphereItems.length-1].level <= levelCount-2
+    ){
+
+      
+colorIndex =
+    (
+        colorIndex - 1 +
+        colors.length
+    )
+    %
+    colors.length;
+
+
+const newIndex =
+
+    sphereItems.length === 0
+    ? numbers.length - 1
+    : nextIndex(
+        sphereItems[
+            sphereItems.length - 1
+        ].index
+    );
+
+sphereItems.push({
+
+    index:
+        newIndex,
+
+    value:
+        String(
+            numbers[newIndex]
+        ),
+
+    color:
+        colors[colorIndex],
+
+    level:
+        levelCount - 1
+
+});
+
+    }
+}
+
+// ======================================
+// SINUSOID
+// ======================================
+
+let previousTimestamp = null;
+
+function loop(timestamp){
+
+    if(previousTimestamp === null){
+        previousTimestamp = timestamp;
+    }
+
+    // Real elapsed time in seconds
+    let deltaTime =
+        (timestamp - previousTimestamp) / 1000;
+
+    previousTimestamp = timestamp;
+
+    // Prevent a huge jump if the browser stalls
+    deltaTime =
+        Math.min(deltaTime, 0.0433604336);
+
+
+const cycleDuration =  177.6043360433;
+
+
+
+    // Completely time-based sinusoid
+    //
+    // Math.PI / cycleDuration means:
+    // one half-wave in cycleDuration seconds
+    // one complete sine cycle in 2 * cycleDuration seconds
+
+    phase +=
+  1.38753387 * Math.PI        
+  /
+       (cycleDuration * 60);
+
+
+    const wave =
+        Math.sin(phase);
+  
+
+    const direction =
+        wave >= 0
+        ? 1
+        : -1;
+
+
+    const speed =
+        Math.abs(wave);
+
+
+const minInterval = 173.441734417344; 
+const maxInterval = 346.883468834688;
+const movementScale = 2775.0677506774;
+    const equivalentInterval =
+        maxInterval -
+        speed *
+        (
+            maxInterval -
+            minInterval
+        );
+
+
+    // ==========================================
+    // REAL-TIME MOVEMENT
+    // ==========================================
+
+    // Original calibration was:
+    //
+    // 30 / equivalentInterval per frame
+    //
+    // At 60 FPS this corresponds to:
+    //
+    // (30 / equivalentInterval) * 60
+    // levels per second.
+
+  const movementSpeed =
+    movementScale /
+    equivalentInterval;
+
+const step =
+   43.36043360 / equivalentInterval;
+
+
+    if(direction > 0){
+
+        moveForward(step);
+
+    }
+    else{
+
+        moveBackward(step);
+
+    }
+
+
+    drawSphere();
+
+
+    requestAnimationFrame(
+        loop
+    );
+}
+// ======================================
+// FULLSCREEN
+// ======================================
+
+function enterFullscreen(){
+
+    if(
+      !document.fullscreenElement
+    ){
+
+        document
+        .documentElement
+        .requestFullscreen()
+        .catch(()=>{});
+    }
+}
+
+document.addEventListener(
+    "click",
+    enterFullscreen,
+    {once:true}
+);
+
+document.addEventListener(
+    "touchstart",
+    enterFullscreen,
+    {once:true}
+);
+
+// ======================================
+// START
+// ======================================
+
+window.addEventListener(
+    "load",
+    ()=>{
+keepScreenAwake();
+
+  //const openedAt = new Date();
+   // document.getElementById("openTime").textContent =
+      // openedAt.toLocaleString();    
+
+
+
+createBottomStartItem();
+drawSphere();
+
+        requestAnimationFrame(
+            loop
+        );
+    }
+);
+      
+let wakeLock = null;
+
+async function keepScreenAwake() {
+    try {
+        wakeLock = await navigator.wakeLock.request("screen");
+
+        wakeLock.addEventListener("release", () => {
+            console.log("Wake Lock released");
+        });
+
+        console.log("Screen Wake Lock active");
+
+    } catch (err) {
+        console.log("Wake Lock error:", err);
+    }
+}
+
+document.addEventListener("visibilitychange", async () => {
+
+    if (
+        wakeLock !== null &&
+        document.visibilityState === "visible"
+    ) {
+        await keepScreenAwake();
+    }
+
+});
+
+</script>
+
+</body>
+</html>      
